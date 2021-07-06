@@ -37,19 +37,9 @@ var randomNumber = function(min, max){
 var fight = function(enemy) {
     
     while(enemy.health > 0 && playerInfo.health > 0) {
-        var promptFight = window.prompt("Would you like to FIGHT or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose.");
 
-        if(promptFight === "skip" || promptFight === "SKIP") {
-            var confirmSkip = window.confirm("Are you sure you'd like to quit?");
-        
-            if(confirmSkip) {
-                window.alert(playerInfo.name + " has decided to skip this fight. Goodbye!");
-                playerInfo.money = Math.max(0, playerInfo.money - 10);
-                console.log("playerInfo.money", playerInfo.money);
-                break; 
-            } 
-            else
-                fight();
+        if(fightOrSkip()){//breaks only if skip is confirmed in fightOrSkip function
+            break;
         }
 
         //IF NOT SKIPPED, THEN PLAYER ATTACKS
@@ -133,6 +123,30 @@ var getPlayerName = function(){
     return name
 };
 
+var fightOrSkip = function(){
+
+    var promptFight = window.prompt("Would you like to FIGHT or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose.");
+
+    //this will execute if promptFight were to have a falsy value such as "" or null. 0 is also a falsy value. the ! makes the false true, and the true false
+    if(!promptFight){
+        window.alert("You need to provide a valid answer! Please try again.");
+        return fightOrSkip();
+    }
+
+    promptFight = promptFight.toLowerCase();//converting answer to lowercase 
+
+    if(promptFight === "skip") {
+        var confirmSkip = window.confirm("Are you sure you'd like to quit?");
+        
+        if(confirmSkip) {
+            window.alert(playerInfo.name + " has decided to skip this fight. Goodbye!");
+            playerInfo.money = Math.max(0, playerInfo.money - 10);
+            console.log("playerInfo.money", playerInfo.money);
+            return true;
+        }
+    }
+};
+
 var playerInfo = {
     name: getPlayerName(),
     health: 100,
@@ -179,7 +193,5 @@ var enemyInfo = [
         attack: randomNumber(10, 14)
     }
 ];
-
-
 
 startGame();
