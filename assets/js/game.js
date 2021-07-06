@@ -106,8 +106,23 @@ var endGame = function(){
     if(playerInfo.health>0){
         window.alert("Great Job, you've survived the game! You now have a score of " + playerInfo.money + ".");
     }
+
+    //Check localStorage for high score, if not there, use 0
+    var highScore = localStorage.getItem("highscore");
+    if(highScore === null){
+        highScore = 0;
+    }
+    //instead of if statement,  could use: highScore = highscore || 0; --> if highscore has null/false value, then it will get 0 for its value
+
+    //if player has more money than the highscore, player has new high score!
+    if(playerInfo.money > highScore){
+        localStorage.setItem("highscore", playerInfo.money);
+        localStorage.setItem("name", playerInfo.name);
+
+        alert(playerInfo.name + " now has the highscore of " + playerInfo.money + "!");
+    }
     else{
-        window.alert("You've lost your robot in battle.");
+        alert(playerInfo.name + " did not beat the highscore of " + highscore + ". Maybe next time!");
     }
 
     var playAgainConfirm = window.confirm("Would you like to play again?");
