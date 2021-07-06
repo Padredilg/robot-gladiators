@@ -14,13 +14,12 @@ var fight = function(enemyName) {
 
         var promptFight = window.prompt("Would you like to FIGHT or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose.");
 
-        if (promptFight === "skip" || promptFight === "SKIP") {
-
+        if(promptFight === "skip" || promptFight === "SKIP") {
             var confirmSkip = window.confirm("Are you sure you'd like to quit?");
         
-            if (confirmSkip) {
+            if(confirmSkip) {
                 window.alert(playerName + " has decided to skip this fight. Goodbye!");
-                playerMoney = playerMoney - 10;
+                playerMoney = Math.max(0, playerMoney - 10);
                 console.log("playerMoney", playerMoney);
                 break; 
             } 
@@ -29,7 +28,8 @@ var fight = function(enemyName) {
         }
 
         //IF NOT SKIPPED, THEN PLAYER ATTACKS
-        enemyHealth = enemyHealth - playerAttack;
+        var damage = randomNumber(playerAttack-3, playerAttack);
+        enemyHealth = Math.max(0, enemyHealth - damage);
         console.log(playerName + " attacked " + enemyName + ". " + enemyName + " now has " + enemyHealth + " health remaining.");
         
         //CHECK ENEMY'S HEALTH STATUS
@@ -42,7 +42,8 @@ var fight = function(enemyName) {
         }
         
         //ENEMY ATTACKS
-        playerHealth = playerHealth - enemyAttack;
+        var damage = randomNumber(enemyAttack-3, enemyAttack);
+        playerHealth = Math.max(0, playerHealth - damage);
         console.log(enemyName + " attacked " + playerName + ". " + playerName + " now has " + playerHealth + " health remaining.");
         
         //CHECK PLAYER HEALTH STATUS
@@ -67,7 +68,7 @@ var startGame = function(){
             window.alert("Welcome to Robot Gladiators! Round " + (i+1) );
 
             var pickedEnemyName = enemyNames[i];//picking enemy name from array of names declared at the top
-            enemyHealth = 50;//resetting enemy health
+            enemyHealth = randomNumber(40, 60);//resetting enemy health between 40 and 60
 
             fight(pickedEnemyName);//calling fight function with the picked name
 
@@ -115,7 +116,7 @@ var shop = function(){
             if(playerMoney>=7){
                 window.alert("Refilling player's health by 20 for 7 dollars.");
                 playerHealth = playerHealth + 20;
-                playerMoney = playerMoney - 7;
+                playerMoney = Math.max(0, playerMoney - 7);
             }
             else{
                 window.alert("You don't have enough money!");
@@ -126,7 +127,7 @@ var shop = function(){
             if(playerMoney>=7){
             window.alert("Upgrading player's attack by 6 for 7 dollars.");
             playerAttack = playerAttack + 6;
-            playerMoney = playerMoney - 7;
+            playerMoney = Math.max(0, playerMoney - 7);
             }
             else{
                 window.alert("You don't have enough money!");
@@ -140,6 +141,12 @@ var shop = function(){
             window.alert("You did not pick a valid option. Try again.");
             shop();
     }
+}
+
+var randomNumber = function(min, max){
+    var value = Math.floor(Math.random()*(max - min + 1)) + min;
+
+    return value;
 }
 
 startGame();
