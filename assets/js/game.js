@@ -7,11 +7,8 @@ var enemyNames = ["Roborto", "Amy Android", "Robo Trumble"];
 var enemyHealth = 50;
 var enemyAttack = 12;
 
-window.alert("Welcome to Robot Gladiators!");
 
 var fight = function(enemyName) {
-
-    
     
     while(enemyHealth > 0 && playerHealth > 0) {
 
@@ -56,12 +53,24 @@ var fight = function(enemyName) {
         else {
             window.alert(playerName + " still has " + playerHealth + " health left.");
         }
-    }
-  }
+    }//closing bracket of while loop
+  }//closing bracket of fight function declaration
 
-  for(var i = 0; i < enemyNames.length; i++) {
-    var pickedEnemyName = enemyNames[i];
-    enemyHealth = 50;
-    fight(pickedEnemyName);
+for(var i = 0; i < enemyNames.length; i++) {
+
+    if(playerHealth>0){
+        window.alert("Welcome to Robot Gladiators! Round " + (i+1) );
+
+        var pickedEnemyName = enemyNames[i];//picking enemy name from array of names declared at the top
+        enemyHealth = 50;//resetting enemy health
+
+        debugger;
+
+        fight(pickedEnemyName);//calling fight function with the picked name
+    }
+    else{
+        window.alert("You have lost your robot in battle! Game Over!");
+        break;
+    }
   }
 
